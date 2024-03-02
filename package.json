@@ -1,0 +1,7 @@
+{
+    "dependencies": {
+        "xrpl": "^2.14.0",
+        "ripple-binary-codec": "^2.0.0",
+        "evernode-js-client": "^0.6.34"
+    }
+}
