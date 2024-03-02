@@ -20,7 +20,7 @@ async function getFee(txBlob) {
     "command": "fee",
     "tx_blob": txBlob
   })
-  return response.result.drops.base_fee + 20;
+  return (parseInt(response.result.drops.base_fee) + 20).toString();
 }
 
 async function sendXahau(wallet,domain,destination,amount, retry) {
