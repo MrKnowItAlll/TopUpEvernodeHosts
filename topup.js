@@ -15,28 +15,38 @@ async function getXahauBalance(account) {
   return (response.result.account_data.Balance / 1000000).toFixed(3);
 }
 
-async function getFee(txBlob) {
+async function getFee(account, amount, destination) {
+  //Dummy payment tx
+  var payment = await client.autofill({
+      TransactionType: "Payment",
+      Account: account,
+      Amount: xrpl.xrpToDrops(amount),
+      Destination: destination,
+      Fee : '0',
+      SigningPubKey  : '0'
+  });
+
+  var txBlob = codec.encode(payment);
   const response = await client.request({
     "command": "fee",
     "tx_blob": txBlob
   })
+
   return (parseInt(response.result.drops.base_fee) + 20).toString();
 }
 
 async function sendXahau(wallet,domain,destination,amount, retry) {
     console.log('\n' + (retry < 3 ? '[retry]':'') + 'Trying to send ' + amount + ' XAH to:' + domain + '[' + destination + ']');
+    //Calculate expected fee
+    var fee = await getFee(wallet.address, amount, destination);
     //Prepare TX
     var payment = await client.autofill({
           TransactionType: "Payment",
           Account: wallet.address,
           Amount: xrpl.xrpToDrops(amount),
           Destination: destination,
-          Fee : '0',
-          SigningPubKey  : '0'
+          Fee : fee
         });
-
-    //Calculate expected fee
-    payment.Fee = await getFee(codec.encode(payment));
 
     //Sign and submit
     const max_ledger = payment.LastLedgerSequence;
