@@ -5,6 +5,7 @@ Then you can specify which amount of XAH you wish to TopUp the hosts, the script
 and send to all your hosts from the specified sender which you will be asked to enter its seed.
 
 # Setup
+    git clone https://github.com/MrKnowItAlll/TopUpEvernodeHosts.git
     npm i xrpl@2.14.0
     npm i ripple-binary-codec@2.0.0
     npm i evernode-js-client@0.6.34
