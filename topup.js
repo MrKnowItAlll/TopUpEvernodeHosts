@@ -64,11 +64,16 @@ const main = async () => {
       output: process.stdout
     });
     var domain = "_"
-    rl.question('Please input your hosts domain:', (answer) => {
+    rl.question('Please input your hosts domain or email:', (answer) => {
         domain = answer;
     });
     while (domain == "_") { await new Promise(r => setTimeout(r, 100))  }
-    console.log('\n\nDomain: ' + domain); 
+
+    var isEmail = domain.includes('@');
+    if(isEmail)
+      console.log('\n\nEmail: ' + domain);
+    else
+      console.log('\n\nDomain: ' + domain);
 
     //Connect to Xahau
     console.log('\n\nConnection to Xahau...');
@@ -93,7 +98,11 @@ const main = async () => {
 
     //Parse users hosts
     for(const host of hosts) {
-        if(host.domain != null && host.domain.toLowerCase().includes(domain.toLowerCase()))
+        if(!isEmail && host.domain != null && host.domain.toLowerCase().includes(domain.toLowerCase()))
+        {
+            balance = await getXahauBalance(host.address);
+            hosts_accounts.push([host.domain,host.address,balance])
+        } else if(host.email != null && host.email.toLowerCase().includes(domain.toLowerCase()))
         {
             balance = await getXahauBalance(host.address);
             hosts_accounts.push([host.domain,host.address,balance])

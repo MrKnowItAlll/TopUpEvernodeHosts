@@ -1,8 +1,11 @@
 # TopUpEvernodeHosts
 Small script to top up Evernode Hosts XAH balance
-Script asks for your Domain name, then queries Evernode hosts under that domain.
+Script asks for your Domain name, then queries Evernode hosts under that domain or Email.
 Then you can specify which amount of XAH you wish to TopUp the hosts, the script will calculate the diff
 and send to all your hosts from the specified sender which you will be asked to enter its seed.
+
+If you find this Helpfull, you can but me a Cup of coffee
+at rXRPncvJ7VVw6nrbCdXwDnSLKx7FMdVj6
 
 # Setup
     git clone https://github.com/MrKnowItAlll/TopUpEvernodeHosts.git
@@ -18,7 +21,7 @@ and send to all your hosts from the specified sender which you will be asked to 
 # Exemple output:
 
 
-    Please input your hosts domain:mkiaevernode.xyz
+    Please input your hosts domain or email:mkiaevernode.xyz
     
     
     Domain: mkiaevernode.xyz
