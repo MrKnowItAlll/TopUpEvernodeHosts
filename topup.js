@@ -109,6 +109,12 @@ const main = async () => {
         }
     }
 
+    if(hosts_accounts.length == 0)
+    {
+      console.log('Cant find Hosts under this ' + (isEmail? 'Email' : 'Domain'));
+      exit(1);
+    }
+
     //Display information
     console.log('\n\nDetected ' + hosts_accounts.length + ' Hosts under this domain:');
     for(const host_account of hosts_accounts)
