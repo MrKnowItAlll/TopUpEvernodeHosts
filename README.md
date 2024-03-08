@@ -18,7 +18,7 @@ at **rXRPncvJ7VVw6nrbCdXwDnSLKx7FMdVj6**
     node topup.js
 
 
-# Exemple output:
+# Example output:
 
 
     Please input your hosts domain or email:mkiaevernode.xyz
