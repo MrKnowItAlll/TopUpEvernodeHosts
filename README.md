@@ -4,8 +4,6 @@ Script asks for your Domain name, then queries Evernode hosts under that domain 
 Then you can specify which amount of XAH you wish to TopUp the hosts, the script will calculate the diff
 and send to all your hosts from the specified sender which you will be asked to enter its seed.
 
-If you find this Helpfull, you can buy me a Cup of coffee
-at **rXRPncvJ7VVw6nrbCdXwDnSLKx7FMdVj6**
 
 # Setup
     git clone https://github.com/MrKnowItAlll/TopUpEvernodeHosts.git
