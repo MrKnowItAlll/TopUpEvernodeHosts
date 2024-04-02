@@ -6,13 +6,43 @@ const client = new xrpl.Client('wss://xahau.network');
 const codec = require('ripple-binary-codec');
 const hosts_accounts = []
 
+const getServerInfoOnce = (function() {
+  let serverInfo = null; // Closure to store the server info
+  let fetchingPromise = null; // Closure to store the promise while fetching
+
+  return async function() {
+    if (!serverInfo && !fetchingPromise) {
+      fetchingPromise = client.request({
+        "id": 2,
+        "command": "server_state",
+        "ledger_index": "current"
+      }).then(info => {
+        serverInfo = info;
+        fetchingPromise = null; // Reset the promise after fetching
+        return serverInfo;
+      });
+    }
+    return fetchingPromise || Promise.resolve(serverInfo);
+  };
+})();
+
 async function getXahauBalance(account) {
+  const server_state = await getServerInfoOnce();
+
   const response = await client.request({
     "command": "account_info",
     "account": account,
     "ledger_index": "validated"
   })
-  return (response.result.account_data.Balance / 1000000).toFixed(3);
+
+  const owner_count = response.result.account_data.OwnerCount;
+  const balance = response.result.account_data.Balance;
+
+  const reserve_base = server_state.result.state.validated_ledger.reserve_base;
+  const reserve_inc = server_state.result.state.validated_ledger.reserve_inc;
+
+  const available_balance = balance - (reserve_base + owner_count * reserve_inc);
+  return (available_balance / 1000000).toFixed(3);
 }
 
 async function getFee(account, amount, destination) {
