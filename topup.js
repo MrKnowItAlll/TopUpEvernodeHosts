@@ -114,8 +114,8 @@ const main = async () => {
     var hosts;
     try {
       console.log('\n\nGetting Evernode hosts from registry, Please wait...');
-      hosts = await (await fetch("https://api.evernode.network/registry/hosts?limit=30000")).json();
-      console.log(hosts);
+      fetch_url = isEmail ? "https://api.evernode.network/registry/hostsemail/" : "https://api.evernode.network/registry/hosts/";
+      hosts = await (await fetch(fetch_url.concat(domain))).json();
     } catch(err) {
       console.log('\n\nCant get hosts err: ' + err);
       exit(1);
