@@ -1,4 +1,5 @@
 const xrpl = require('xrpl')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const evernode = require('evernode-js-client');
 const { exit } = require('process');
 const readline = require("readline");
@@ -112,22 +113,16 @@ const main = async () => {
     //Get hosts from Evernode Registry
     var hosts;
     try {
-      console.log('\n\nGetting Evernode hosts from registry, Please wait...'); 
-      await evernode.Defaults.useNetwork('mainnet');
-      const xrplApi = new evernode.XrplApi(null, { autoReconnect: true });
-      evernode.Defaults.set({
-          xrplApi: xrplApi
-      });
-      const registryClient = await evernode.HookClientFactory.create(evernode.HookTypes.registry);
-      await registryClient.connect();
-      hosts = await registryClient.getAllHostsFromLedger();
+      console.log('\n\nGetting Evernode hosts from registry, Please wait...');
+      hosts = await (await fetch("https://api.evernode.network/registry/hosts?limit=30000")).json();
+      console.log(hosts);
     } catch(err) {
       console.log('\n\nCant get hosts err: ' + err);
       exit(1);
     }
 
     //Parse users hosts
-    for(const host of hosts) {
+    for(const host of hosts.data) {
         if(!isEmail && host.domain != null && host.domain.toLowerCase().includes(domain.toLowerCase()))
         {
             balance = await getXahauBalance(host.address);
