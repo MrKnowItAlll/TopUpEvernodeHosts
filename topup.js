@@ -1,6 +1,5 @@
 const xrpl = require('xrpl')
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-const evernode = require('evernode-js-client');
 const { exit } = require('process');
 const readline = require("readline");
 const client = new xrpl.Client('wss://xahau.network');
